@@ -17,6 +17,7 @@ exec udiskie
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+d exec i3-dmenu-desktop
 bindsym $mod+i exec firefox
+bindsym $mod+Shift+l exec i3lock
 bindsym Print exec scrot 'screenshot_%H%M%S.png'
 bindsym --release $mod+Print exec /home/jan/make_screenshot.sh
 bindsym $mod+c exec xclip -selection clipboard -out | xclip -selection primary -in
