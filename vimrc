@@ -36,12 +36,25 @@ function! PrepareHeader()
 endfunction
 autocmd BufNewFile *.h :call PrepareHeader()
 
-"Helpful function to format Java sourcode via intellij
-function! FormatCode()
+"Formatting functions
+function! FormatJson()
+    let unformattedJson = join(getline(1, line("$")))
+    let formattedJson = systemlist("python -m json.tool", unformattedJson)
+    g/./d
+    call append(0, formattedJson)
+endfunction
+function! FormatJava()
     call system("/snap/intellij-idea-community/current/bin/format.sh " . @%)
     edit!
 endfunction
-command! Format :call FormatCode()
+function! FormatSource()
+    if &filetype == "java"
+        call FormatJava()
+    elseif &filetype == "json"
+        call FormatJson()
+    endif
+endfunction
+command! Format :call FormatSource()
 
 "Helpful function to generate and paste UUID
 function! GenerateUUID()
