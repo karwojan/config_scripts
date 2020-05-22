@@ -62,7 +62,7 @@ function! GenerateUUID()
     let uuid = strcharpart(uuid, 0, strlen(uuid) - 2)
     call setreg('"', uuid)
 endfunction
-noremap <F9> :call GenerateUUID()<CR>p
+command! GenerateUUID :call GenerateUUID()
 
 "Helpful function to recursive find file containing passed text
 function! FindFile(suffix)
@@ -83,8 +83,11 @@ function! FindFile(suffix)
     autocmd! TextChangedI <buffer> call FindAndPrintFiles()
     noremap <buffer> <CR> :execute "edit! " . getline(line("."))<CR>
     noremap <buffer> <ESC> :execute "edit! " . g:currentFilename<CR>
+    startinsert
+    setlocal cursorline
 endfunction
 command! -nargs=1 FindFile :call FindFile("<args>")
+autocmd! FileType java noremap <F1> :FindFile java<CR>
 
 "tags
 function! GenerateTags()
@@ -140,3 +143,22 @@ autocmd BufWritePost *.java call system("ctags --append " . @%)
 "JavaComplete
 autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 autocmd Filetype java :let g:JavaComplete_ClasspathGenerationOrder = ['Maven']
+
+"JDB
+function! EnableJDBMapping()
+    let g:jdb_breakpoints = []
+    function! ToggleBreakpoint()
+        let position = @% . ":" . line(".")
+        if count(g:jdb_breakpoints, position) == 1
+            call remove(g:jdb_breakpoints, index(g:jdb_breakpoints, position))
+            JDBClearBreakpointOnLine
+        else
+            call add(g:jdb_breakpoints, position)
+            JDBBreakpointOnLine
+        endif
+    endfunction
+    noremap <F1> :call ToggleBreakpoint()<CR>
+    noremap <F2> :JDBStepOver
+    noremap <F3> viwy:JDBCommand print "<CR>
+endfunction
+command! EnableJDBMapping :call EnableJDBMapping()
