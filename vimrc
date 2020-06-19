@@ -59,7 +59,7 @@ command! Format :call FormatSource()
 "Helpful function to generate and paste UUID
 function! GenerateUUID()
     let uuid = system("uuidgen")
-    let uuid = strcharpart(uuid, 0, strlen(uuid) - 2)
+    let uuid = strcharpart(uuid, 0, strlen(uuid) - 1)
     call setreg('"', uuid)
 endfunction
 command! GenerateUUID :call GenerateUUID()
