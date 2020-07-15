@@ -89,7 +89,7 @@ endfunction
 command! -nargs=1 FindFile :call FindFile("<args>")
 autocmd! FileType java noremap <F1> :FindFile java<CR>
 
-"tags
+"tags for java
 function! GenerateTags()
     echo "Generating..."
 
@@ -162,3 +162,9 @@ function! EnableJDBMapping()
     noremap <F3> viwy:JDBCommand print "<CR>
 endfunction
 command! EnableJDBMapping :call EnableJDBMapping()
+
+"python
+autocmd FileType python noremap <F1> :!python3 -i %<CR>
+autocmd FileType python noremap <F2> :!python3 %<CR>
+let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = "0"

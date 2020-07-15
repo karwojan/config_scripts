@@ -18,7 +18,6 @@ exec setxkbmap -layout pl
 bindsym $mod+p exec flameshot gui
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+d exec i3-dmenu-desktop
-bindsym $mod+i exec chromium-browser
 bindsym $mod+Shift+l exec i3lock
 bindsym $mod+c exec xclip -selection clipboard -out | xclip -selection primary -in
 bindsym $mod+v exec xclip -selection primary -out | xclip -selection clipboard -in
