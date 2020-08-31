@@ -164,7 +164,15 @@ endfunction
 command! EnableJDBMapping :call EnableJDBMapping()
 
 "python
-autocmd FileType python noremap <F1> :!python3 -i %<CR>
-autocmd FileType python noremap <F2> :!python3 %<CR>
+function! ExecuteLinesInPython3()
+    if len(term_list()) == 0
+        let current_buffer = bufnr("")
+        call term_start('python3', {'term_rows': 6})
+        call win_gotoid(bufwinid(current_buffer))
+    endif
+    call term_sendkeys(term_list()[0], getline('.') . "\n")
+endfunction
+autocmd FileType python noremap <F1> :!python3 %<CR>
+autocmd FileType python noremap <F2> :call ExecuteLinesInPython3()<CR>
 let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = "0"
