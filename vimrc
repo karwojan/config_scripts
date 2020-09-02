@@ -164,15 +164,26 @@ endfunction
 command! EnableJDBMapping :call EnableJDBMapping()
 
 "python
+function! HidePythonWindow()
+    let term_window_nr = bufwinnr(term_list()[0])
+    execute term_window_nr . 'hide'
+    unmap <Esc>
+endfunction
 function! ExecuteLinesInPython3()
     if len(term_list()) == 0
-        let current_buffer = bufnr("")
-        call term_start('python3', {'term_rows': 6})
+        call term_start('python3', {'hidden':1})
+    endif
+    let term_buffer = term_list()[0]
+    let current_buffer = bufnr("")
+    if bufwinnr(term_buffer) == -1
+        execute 'sbuffer ' . term_buffer
         call win_gotoid(bufwinid(current_buffer))
     endif
-    call term_sendkeys(term_list()[0], getline('.') . "\n")
+    call term_sendkeys(term_buffer, getline('.') . "\n")
+    noremap <Esc> :call HidePythonWindow()<CR>
 endfunction
 autocmd FileType python noremap <F1> :!python3 %<CR>
-autocmd FileType python noremap <F2> :call ExecuteLinesInPython3()<CR>
+autocmd FileType python noremap <F2> :!python3 -i %<CR>
+autocmd FileType python noremap <Space> :call ExecuteLinesInPython3()<CR>
 let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = "0"
