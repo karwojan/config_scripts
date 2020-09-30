@@ -47,11 +47,19 @@ function! FormatJava()
     call system("/snap/intellij-idea-community/current/bin/format.sh " . @%)
     edit!
 endfunction
+function! FormatXml()
+    let unformattedXml = join(getline(1, line("$")))
+    let formattedXml = systemlist("xmllint --format -", unformattedXml)
+    g/./d
+    call append(0, formattedXml)
+endfunction
 function! FormatSource()
     if &filetype == "java"
         call FormatJava()
     elseif &filetype == "json"
         call FormatJson()
+    elseif &filetype == "xml"
+        call FormatXml()
     endif
 endfunction
 command! Format :call FormatSource()
