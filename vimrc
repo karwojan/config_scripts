@@ -37,29 +37,21 @@ endfunction
 autocmd BufNewFile *.h :call PrepareHeader()
 
 "Formatting functions
-function! FormatJson()
-    let unformattedJson = join(getline(1, line("$")))
-    let formattedJson = systemlist("python -m json.tool", unformattedJson)
-    g/./d
-    call append(0, formattedJson)
-endfunction
-function! FormatJava()
-    call system("/snap/intellij-idea-community/current/bin/format.sh " . @%)
-    edit!
-endfunction
-function! FormatXml()
-    let unformattedXml = join(getline(1, line("$")))
-    let formattedXml = systemlist("xmllint --format -", unformattedXml)
-    g/./d
-    call append(0, formattedXml)
+function! FormatUsingExternalTool(cmd)
+    let unformattedJson = join(getline(1, line("$")), "\n")
+    let formattedJson = systemlist(a:cmd, unformattedJson)
+    g/.*/d
+    call setline(1, formattedJson)
 endfunction
 function! FormatSource()
     if &filetype == "java"
-        call FormatJava()
+        call system("/snap/intellij-idea-community/current/bin/format.sh " . @%)
     elseif &filetype == "json"
-        call FormatJson()
+        call FormatUsingExternalTool("python -m json.tool")
     elseif &filetype == "xml"
-        call FormatXml()
+        call FormatUsingExternalTool("xmllint --format -")
+    elseif &filetype == "python"
+        call FormatUsingExternalTool("yapf")
     endif
 endfunction
 command! Format :call FormatSource()
