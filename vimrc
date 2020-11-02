@@ -179,7 +179,9 @@ function! HidePythonWindow()
 endfunction
 function! ExecuteLinesInPython3()
     if len(term_list()) == 0
-        call term_start('python3', {'hidden':1})
+        let term_buffer = term_start('python3', {'hidden':1})
+        call term_sendkeys(term_buffer, "import sys\n")
+        call term_sendkeys(term_buffer, "sys.path.append('" . expand('%:h') . "')\n")
     endif
     let term_buffer = term_list()[0]
     let current_buffer = bufnr("")
