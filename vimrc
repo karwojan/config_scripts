@@ -194,4 +194,11 @@ let g:jedi#show_call_signatures = "0"
 autocmd FileType sh noremap <F1> :!./%<CR>
 
 "latex
+function! CountWords() range
+    echo len(split(join(getline(a:firstline, a:lastline))))
+endfunction
+function! CountCharacters() range
+    echo len(join(getline(a:firstline, a:lastline)))
+endfunction
 autocmd FileType tex noremap <F1> :!pdflatex %<CR>
+autocmd FileType tex set spell spelllang=pl textwidth=100 spellcapcheck=
