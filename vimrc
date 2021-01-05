@@ -189,3 +189,9 @@ autocmd FileType python noremap <F2> :!python3 -i %<CR>
 autocmd FileType python noremap <Space> :call ExecuteLinesInPython3()<CR>
 let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = "0"
+
+"bash
+autocmd FileType sh noremap <F1> :!./%<CR>
+
+"latex
+autocmd FileType tex noremap <F1> :!pdflatex %<CR>
