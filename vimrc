@@ -47,11 +47,11 @@ function! FormatSource()
     if &filetype == "java"
         call system("/snap/intellij-idea-community/current/bin/format.sh " . @%)
     elseif &filetype == "json"
-        call FormatUsingExternalTool("python -m json.tool")
+        call FormatUsingExternalTool("python3 -m json.tool")
     elseif &filetype == "xml"
         call FormatUsingExternalTool("xmllint --format -")
     elseif &filetype == "python"
-        call FormatUsingExternalTool("yapf")
+        call FormatUsingExternalTool("yapf3")
     endif
 endfunction
 command! Format :call FormatSource()
@@ -201,4 +201,4 @@ function! CountCharacters() range
     echo len(join(getline(a:firstline, a:lastline)))
 endfunction
 autocmd FileType tex noremap <F1> :!pdflatex %<CR>
-autocmd FileType tex set spell spelllang=pl textwidth=100 spellcapcheck=
+autocmd FileType tex setlocal spell spelllang=pl textwidth=100 spellcapcheck=
