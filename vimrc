@@ -200,5 +200,12 @@ endfunction
 function! CountCharacters() range
     echo len(join(getline(a:firstline, a:lastline)))
 endfunction
-autocmd FileType tex noremap <F1> :!pdflatex %<CR>
+function! CompileLatex()
+    %s/\(\_s\w\)\_s\(\w\)/\1\~\2/g
+    w
+    !pdflatex %
+    u
+    w
+endfunction
+autocmd FileType tex noremap <F1> :call CompileLatex()<CR>
 autocmd FileType tex setlocal spell spelllang=pl textwidth=100 spellcapcheck=
