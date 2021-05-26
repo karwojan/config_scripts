@@ -47,6 +47,7 @@ sign define pdb_breakpoint_line text=B linehl=PDBBreakpointLineHighlight
 sign define pdb_current_line text=>> linehl=PDBCurrentLineHighlight texthl=PDBCurrentLineHighlight
 
 let maplocalleader = ','
+map <buffer> <LocalLeader>g :call PDBGoToCurrentLine()<CR>
 map <buffer> <LocalLeader>s :call PDBStart()<CR>
 map <buffer> <LocalLeader>S :call PDBStop()<CR>
 map <buffer> <LocalLeader>n :call PDBNext()<CR>
@@ -73,10 +74,8 @@ if !exists('*PDBStart')
     function PDBStart()
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
-            let g:pdb_buffer = term_start('python3 -m pdb ' . expand('%'))
+            let g:pdb_buffer = term_start('python3 -m pdb ' . expand('%:p'), {'term_rows': 10})
             call win_gotoid(current_window_id)
-            call term_wait(g:pdb_buffer, 100)
-            call PDBGoToCurrentLine()
             autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
         endif
     endfunction
@@ -94,20 +93,16 @@ endif
 if !exists('*PDBNext')
     function PDBNext()
         call term_sendkeys(g:pdb_buffer, "next\n")
-        call term_wait(g:pdb_buffer, 100)
-        call PDBGoToCurrentLine()
     endfunction
 endif
 if !exists('*PDBContinue')
     function PDBContinue()
         call term_sendkeys(g:pdb_buffer, "continue\n")
-        call term_wait(g:pdb_buffer, 100)
-        call PDBGoToCurrentLine()
     endfunction
 endif
 if !exists('*PDBBreakpoint')
     function PDBBreakpoint()
-        call term_sendkeys(g:pdb_buffer, "break " . expand('%') . ":" . line('.') . "\n")
+        call term_sendkeys(g:pdb_buffer, "break " . expand('%:p') . ":" . line('.') . "\n")
         call sign_place(0, "", 'pdb_breakpoint_line', bufnr(""), {'lnum': line('.')})
     endfunction
 endif
