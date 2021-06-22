@@ -1,0 +1,3 @@
+URxvt.font:		xft:DejaVu Sans Mono:size=11
+URxvt.background: 	Black
+URxvt.foreground:	Green
