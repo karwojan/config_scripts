@@ -1,0 +1,41 @@
+This repository contains configuration files, which are necessary to set up my personal Linux
+environment - based on i3 windows manager and equipped with VIM text editor.
+
+
+# Files description:
+
+'i3_config' - i3 windows manager configuration, should be linked by ~/.config/i3/config
+ln -s ~/config_scripts/i3_config ~/.config/i3/config
+
+'i3status_config' - i3 status bar configuration, should be linked by ~/.config/i3status/config
+ln -s ~/config_scripts/i3status_config ~/.config/i3status/config
+
+'vimrc' - vim configuration file, should be linked by ~/.vim/vimrc
+ln -s ~/config_scripts/vimrc ~/.vim/vimrc
+
+'python.vim' - my own python vim plugin, should be linked by ~/.vim/ftplugin/python.vim
+ln -s ~/config_scripts/python.vim ~/.vim/ftplugin/python.vim
+
+'xinitrc' - X server init script, used to read resources, should be linked by ~/.xinitrc
+ln -s ~/config_scripts/xinitrc ~/.xinitrc
+
+'Xresources' - X server resources configuration, should be linked by ~/.Xresources
+ln -s ~/config_scripts/Xresources ~/.Xresources
+
+
+
+# VIM plugins to install
+
+jedi-vim (https://github.com/davidhalter/jedi-vim)
+NERDTree (https://github.com/preservim/nerdtree)
+
+
+
+# Useful programs used with i3 windows manager
+
+nm-applet
+udiskie
+i3lock
+xclip
+pactl
+flameshot
