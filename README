@@ -26,8 +26,9 @@ ln -s ~/config_scripts/Xresources ~/.Xresources
 
 # VIM plugins to install
 
-jedi-vim (https://github.com/davidhalter/jedi-vim)
-NERDTree (https://github.com/preservim/nerdtree)
+jedi-vim   (https://github.com/davidhalter/jedi-vim)
+NERDTree   (https://github.com/preservim/nerdtree)
+vim-flake8 (https://github.com/nvie/vim-flake8)
 
 
 
@@ -39,3 +40,6 @@ i3lock
 xclip
 pactl
 flameshot
+
+yapf
+flake8

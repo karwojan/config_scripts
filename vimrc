@@ -51,7 +51,11 @@ function! FormatSource()
     elseif &filetype == "xml"
         call FormatUsingExternalTool("xmllint --format -")
     elseif &filetype == "python"
-        call FormatUsingExternalTool("yapf3")
+        if executable("yapf")
+            call FormatUsingExternalTool("yapf")
+        else
+            call FormatUsingExternalTool("yapf3")
+        endif
     endif
 endfunction
 command! Format :call FormatSource()
