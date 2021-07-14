@@ -43,9 +43,10 @@ General:
 Java development environment:
     - java (openjdk or something)
     - maven
-    - google-java-format (https://github.com/google/google-java-format/releases)
+    - google-java-format (https://github.com/google/google-java-format/releases), put in ~/.vim/
+    - java language server (http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz), put in ~/eclipse.jdt.ls/
     - VIM plugins:
-        - vim-javacomplete2 (https://github.com/artur-shaik/vim-javacomplete2)
+        - ALE (https://github.com/dense-analysis/ale)
 
 Python development environment
     - python3

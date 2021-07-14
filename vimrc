@@ -144,9 +144,9 @@ function! GenerateTags()
 endfunction
 autocmd BufWritePost *.java call system("ctags --append " . @%)
 
-"JavaComplete
-autocmd Filetype java setlocal omnifunc=javacomplete#Complete
-autocmd Filetype java :let g:JavaComplete_ClasspathGenerationOrder = ['Maven']
+"ALE
+let g:ale_linters = {'java': ['eclipselsp']}
+autocmd Filetype java setlocal omnifunc=ale#completion#OmniFunc
 
 "JDB
 function! EnableJDBMapping()
