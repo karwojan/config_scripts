@@ -1,5 +1,6 @@
 This repository contains configuration files, which are necessary to set up my personal Linux
-environment - based on i3 windows manager and equipped with VIM text editor.
+environment - based on i3 windows manager and equipped with VIM text editor. This document provides
+description of configuration files and it also stores lists of necessary and useful programs and plugins.
 
 
 # Files description:
@@ -10,36 +11,46 @@ ln -s ~/config_scripts/i3_config ~/.config/i3/config
 'i3status_config' - i3 status bar configuration, should be linked by ~/.config/i3status/config
 ln -s ~/config_scripts/i3status_config ~/.config/i3status/config
 
-'vimrc' - vim configuration file, should be linked by ~/.vim/vimrc
-ln -s ~/config_scripts/vimrc ~/.vim/vimrc
-
-'python.vim' - my own python vim plugin, should be linked by ~/.vim/ftplugin/python.vim
-ln -s ~/config_scripts/python.vim ~/.vim/ftplugin/python.vim
-
 'xinitrc' - X server init script, used to read resources, should be linked by ~/.xinitrc
 ln -s ~/config_scripts/xinitrc ~/.xinitrc
 
 'Xresources' - X server resources configuration, should be linked by ~/.Xresources
 ln -s ~/config_scripts/Xresources ~/.Xresources
 
+'vimrc' - vim configuration file, should be linked by ~/.vim/vimrc
+ln -s ~/config_scripts/vimrc ~/.vim/vimrc
+
+'python.vim' - my own python vim plugin, should be linked by ~/.vim/ftplugin/python.vim
+ln -s ~/config_scripts/python.vim ~/.vim/ftplugin/python.vim
 
 
-# VIM plugins to install
-
-jedi-vim   (https://github.com/davidhalter/jedi-vim)
-NERDTree   (https://github.com/preservim/nerdtree)
-vim-flake8 (https://github.com/nvie/vim-flake8)
 
 
+# Necessary programs and plugins:
 
-# Useful programs used with i3 windows manager
+General:
+    - vim
+    - git
+    - nm-applet
+    - udiskie
+    - i3lock
+    - xclip
+    - pactl
+    - flameshot
+    - VIM plugins:
+        - NERDTree (https://github.com/preservim/nerdtree)
 
-nm-applet
-udiskie
-i3lock
-xclip
-pactl
-flameshot
+Java development environment:
+    - java (openjdk or something)
+    - maven
+    - google-java-format (https://github.com/google/google-java-format/releases)
+    - VIM plugins:
+        - vim-javacomplete2 (https://github.com/artur-shaik/vim-javacomplete2)
 
-yapf
-flake8
+Python development environment
+    - python3
+    - yapf
+    - flake8
+    - VIM plugins:
+        - jedi-vim   (https://github.com/davidhalter/jedi-vim)
+        - vim-flake8 (https://github.com/nvie/vim-flake8)
