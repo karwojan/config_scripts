@@ -13,8 +13,11 @@ autocmd BufReadPost * normal zR
 "encryption
 set cm=blowfish2
 
-"path for C/C++ header files (from gcc/g++ compiler)
-set path=.,,include,/usr/include,/usr/local/include,/usr/lib/gcc/x86_64-redhat-linux/8/include,/usr/include/c++/8,/usr/include/c++/8/x86_64-redhat-linux,/include/c++/8/backward
+"path for C/C++ header files
+set path=.,,include,/usr/include,/usr/local/include
+if has_key(environ(), 'IDF_PATH')
+    set path+=~/esp/esp-idf/components/*/include
+endif
 
 "NERDTree started when ther is no file selected while entering Vim
 function! LaunchNERDTree()
