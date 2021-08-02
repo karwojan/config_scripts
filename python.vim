@@ -5,37 +5,36 @@
 
 
 " Executing python code in terminal window
-if !exists('*CloseSnippetWindow')
-    function CloseSnippetWindow()
-        if bufwinnr(b:snippet_buffer) != -1
-            execute bufwinnr(b:snippet_buffer) . 'hide'
-        endif
-    endfunction
-endif
-if !exists('*ExecuteInPython3')
-    function ExecuteInPython3(text)
-        if !exists('b:snippet_buffer')
-            let b:snippet_buffer = term_start('python3', {'hidden':1})
-            let snippet_buffer = b:snippet_buffer
-            call term_sendkeys(snippet_buffer, "import sys\n")
-            call term_sendkeys(snippet_buffer, "sys.path.append('" . expand('%:h') . "')\n")
-            autocmd QuitPre <buffer> call term_setkill(b:snippet_buffer, "kill")
-            map <buffer> <Esc> :call CloseSnippetWindow()<CR>
-        else
-            let snippet_buffer = b:snippet_buffer
-        endif
-        let current_window_id = bufwinid(bufnr('%'))
-        if bufwinnr(snippet_buffer) == -1
-            execute 'sbuffer ' . snippet_buffer
-            call win_gotoid(current_window_id)
-        endif
-        call term_sendkeys(snippet_buffer, a:text . "\n")
-    endfunction
-endif
-map <buffer> <F1> :!python3 %<CR>
-map <buffer> <F2> :!python3 -i %<CR>
-nmap <buffer> <Space> :call ExecuteInPython3(getline(line('.')))<CR>
-vmap <buffer> <Space> "zy:call ExecuteInPython3(@z)<CR>
+function CloseSnippetWindow()
+    if bufwinnr(b:snippet_buffer) != -1
+        execute bufwinnr(b:snippet_buffer) . 'hide'
+    endif
+endfunction
+function SnippetWindowExists()
+    return exists('b:snippet_buffer') && index(term_list(), b:snippet_buffer) != -1 && term_getstatus(b:snippet_buffer) == 'running'
+endfunction
+function ExecuteInPython3(text)
+    if !SnippetWindowExists()
+        let b:snippet_buffer = term_start('python3', {'hidden':1})
+        let snippet_buffer = b:snippet_buffer
+        call term_sendkeys(snippet_buffer, "import sys\n")
+        call term_sendkeys(snippet_buffer, "sys.path.append('" . expand('%:h') . "')\n")
+        autocmd QuitPre <buffer> call term_setkill(b:snippet_buffer, "kill")
+        noremap <buffer> <Esc> :call CloseSnippetWindow()<CR>
+    else
+        let snippet_buffer = b:snippet_buffer
+    endif
+    let current_window_id = bufwinid(bufnr('%'))
+    if bufwinnr(snippet_buffer) == -1
+        execute 'sbuffer ' . snippet_buffer
+        call win_gotoid(current_window_id)
+    endif
+    call term_sendkeys(snippet_buffer, a:text . "\n")
+endfunction
+noremap <buffer> <F1> :!python3 %<CR>
+noremap <buffer> <F2> :!python3 -i %<CR>
+nnoremap <buffer> <Space> :call ExecuteInPython3(getline(line('.')))<CR>
+vnoremap <buffer> <Space> "zy:call ExecuteInPython3(@z)<CR>
 
 
 
