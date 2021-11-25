@@ -41,10 +41,12 @@ autocmd BufNewFile *.h :call PrepareHeader()
 
 "Formatting functions
 function! FormatUsingExternalTool(cmd)
-    let unformattedJson = join(getline(1, line("$")), "\n")
-    let formattedJson = systemlist(a:cmd, unformattedJson)
+    silent let formatted = systemlist(a:cmd, winbufnr(winnr()))
+    let cursor_position = getpos(".")
     g/.*/d
-    call setline(1, formattedJson)
+    call setline(1, formatted)
+    call setpos(".", cursor_position)
+    echo join(readfile("/tmp/vim_format_stderr"), "\n")
 endfunction
 function! FormatSource()
     if &filetype == "java"
@@ -54,11 +56,7 @@ function! FormatSource()
     elseif &filetype == "xml"
         call FormatUsingExternalTool("xmllint --format -")
     elseif &filetype == "python"
-        if executable("yapf")
-            call FormatUsingExternalTool("yapf")
-        else
-            call FormatUsingExternalTool("yapf3")
-        endif
+        call FormatUsingExternalTool("black - 2>/tmp/vim_format_stderr")
     endif
 endfunction
 command! Format :call FormatSource()
