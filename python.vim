@@ -47,7 +47,8 @@ sign define pdb_current_line text=>> linehl=PDBCurrentLineHighlight texthl=PDBCu
 
 let maplocalleader = ','
 map <buffer> <LocalLeader>g :call PDBGoToCurrentLine()<CR>
-map <buffer> <LocalLeader>s :call PDBStart()<CR>
+map <buffer> <LocalLeader>sd :call PDBStart()<CR>
+map <buffer> <LocalLeader>sn :call PDBStartNormal()<CR>
 map <buffer> <LocalLeader>S :call PDBStop()<CR>
 map <buffer> <LocalLeader>n :call PDBNext()<CR>
 map <buffer> <LocalLeader>c :call PDBContinue()<CR>
@@ -74,6 +75,16 @@ if !exists('*PDBStart')
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
             let g:pdb_buffer = term_start('python3 -m pdb ' . expand('%:p'), {'term_rows': 10})
+            call win_gotoid(current_window_id)
+            autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
+        endif
+    endfunction
+endif
+if !exists('*PDBStartNormal')
+    function PDBStartNormal()
+        if !exists('g:pdb_buffer')
+            let current_window_id = bufwinid(bufnr("%"))
+            let g:pdb_buffer = term_start('python3 ' . expand('%:p'), {'term_rows': 10})
             call win_gotoid(current_window_id)
             autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
         endif
