@@ -84,7 +84,7 @@ if !exists('*PDBStartNormal')
     function PDBStartNormal()
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
-            let g:pdb_buffer = term_start('python3 ' . expand('%:p'), {'term_rows': 10})
+            let g:pdb_buffer = term_start('/bin/bash', {'term_rows': 10})
             call win_gotoid(current_window_id)
             autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
         endif
