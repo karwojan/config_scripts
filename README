@@ -50,8 +50,10 @@ Java development environment:
 
 Python development environment
     - python3
-    - yapf
+    - black
     - flake8
+    - mypy
     - VIM plugins:
         - jedi-vim   (https://github.com/davidhalter/jedi-vim)
         - vim-flake8 (https://github.com/nvie/vim-flake8)
+        - ALE (https://github.com/dense-analysis/ale)
