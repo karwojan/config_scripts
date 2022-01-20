@@ -33,6 +33,7 @@ function ExecuteInPython3(text)
 endfunction
 noremap <buffer> <F1> :!python3 %<CR>
 noremap <buffer> <F2> :!python3 -i %<CR>
+noremap <buffer> <F3> "zyiw:execute '!pytest -k' @z @%<CR>
 nnoremap <buffer> <Space> :call ExecuteInPython3(getline(line('.')))<CR>
 vnoremap <buffer> <Space> "zy:call ExecuteInPython3(@z)<CR>
 
