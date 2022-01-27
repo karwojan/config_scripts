@@ -6,9 +6,12 @@
 
 " Executing python code in terminal window
 function CloseSnippetWindow()
-    if bufwinnr(b:snippet_buffer) != -1
-        execute bufwinnr(b:snippet_buffer) . 'hide'
-    endif
+    execute bufwinnr(b:snippet_buffer) . 'hide'
+    nunmap <buffer> <Esc>
+endfunction
+function ShowSnippetWindow()
+    nnoremap <buffer> <Esc> :call CloseSnippetWindow()<CR>
+    execute 'sbuffer ' . b:snippet_buffer
 endfunction
 function SnippetWindowExists()
     return exists('b:snippet_buffer') && index(term_list(), b:snippet_buffer) != -1 && term_getstatus(b:snippet_buffer) == 'running'
@@ -19,14 +22,13 @@ function ExecuteInPython3(text)
         let snippet_buffer = b:snippet_buffer
         call term_sendkeys(snippet_buffer, "import sys\n")
         call term_sendkeys(snippet_buffer, "sys.path.append('" . expand('%:h') . "')\n")
-        autocmd QuitPre <buffer> call term_setkill(b:snippet_buffer, "kill")
-        noremap <buffer> <Esc> :call CloseSnippetWindow()<CR>
+        autocmd ExitPre <buffer> call term_setkill(b:snippet_buffer, "kill")
     else
         let snippet_buffer = b:snippet_buffer
     endif
     let current_window_id = bufwinid(bufnr('%'))
     if bufwinnr(snippet_buffer) == -1
-        execute 'sbuffer ' . snippet_buffer
+        call ShowSnippetWindow()
         call win_gotoid(current_window_id)
     endif
     call term_sendkeys(snippet_buffer, a:text . "\n")
