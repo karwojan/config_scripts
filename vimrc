@@ -56,7 +56,7 @@ function! FormatSource()
     elseif &filetype == "xml"
         call FormatUsingExternalTool("xmllint --format -")
     elseif &filetype == "python"
-        call FormatUsingExternalTool("black -l 70 - 2>/tmp/vim_format_stderr")
+        call FormatUsingExternalTool("black - 2>/tmp/vim_format_stderr")
     endif
 endfunction
 command! Format :call FormatSource()

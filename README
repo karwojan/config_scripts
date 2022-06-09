@@ -38,7 +38,8 @@ General:
     - pactl
     - flameshot
     - VIM plugins:
-        - NERDTree (https://github.com/preservim/nerdtree)
+        - NERDTree (https://github.com/preservim/nerdtree) - do wyświetlania drzewa katalogów
+        - vimtex (https://github.com/lervag/vimtex) - do pracy z plikami latex
 
 Java development environment:
     - java (openjdk or something)
@@ -55,5 +56,4 @@ Python development environment
     - mypy
     - VIM plugins:
         - jedi-vim   (https://github.com/davidhalter/jedi-vim)
-        - vim-flake8 (https://github.com/nvie/vim-flake8)
         - ALE (https://github.com/dense-analysis/ale)
