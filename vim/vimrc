@@ -77,8 +77,16 @@ autocmd FileType tex setlocal spell spelllang=pl textwidth=100 spellcapcheck=
 
 "Autostart NERDTree when there is no file selected while entering Vim
 function! LaunchNERDTree()
-    if @% == "" && exists('*NERDTree')
+    if @% == "" && exists(':NERDTree')
         NERDTree
     endif
 endfunction
 autocmd VimEnter * call LaunchNERDTree()
+
+"Plugins configuration
+call plug#begin()
+Plug 'preservim/nerdtree'
+Plug 'dense-analysis/ale'
+Plug 'davidhalter/jedi-vim'
+Plug 'lervag/vimtex'
+call plug#end()

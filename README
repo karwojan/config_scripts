@@ -5,31 +5,22 @@ description of configuration files and it also stores lists of necessary and use
 
 # Files description:
 
-'i3_config' - i3 windows manager configuration, should be linked by ~/.config/i3/config
-ln -s ~/config_scripts/i3_config ~/.config/i3/config
+'i3_config' - i3 windows manager configuration, should be linked by '~/.config/i3/config'
 
-'i3status_config' - i3 status bar configuration, should be linked by ~/.config/i3status/config
-ln -s ~/config_scripts/i3status_config ~/.config/i3status/config
+'i3status_config' - i3 status bar configuration, should be linked by '~/.config/i3status/config'
 
-'xinitrc' - X server init script, used to read resources, should be linked by ~/.xinitrc
-ln -s ~/config_scripts/xinitrc ~/.xinitrc
+'Xresources' - X server resources configuration, should be linked by '~/.Xresources'
 
-'Xresources' - X server resources configuration, should be linked by ~/.Xresources
-ln -s ~/config_scripts/Xresources ~/.Xresources
+'vim/vimrc' - vim configuration file, should be linked by ~/.vim/vimrc
 
-'vimrc' - vim configuration file, should be linked by ~/.vim/vimrc
-ln -s ~/config_scripts/vimrc ~/.vim/vimrc
-
-'python.vim' - my own python vim plugin, should be linked by ~/.vim/ftplugin/python.vim
-ln -s ~/config_scripts/python.vim ~/.vim/ftplugin/python.vim
+'vim/ftplugin/' - directory with custom vim filetype plugins, should be linked by files in '~/.vim/ftplugin/' directory
 
 
 
-
-# Necessary programs and plugins:
+# Necessary programs
 
 General:
-    - vim
+    - VIM (plugins listed in 'vimrc' and managed by 'https://github.com/junegunn/vim-plug.git')
     - git
     - nm-applet
     - udiskie
@@ -37,23 +28,15 @@ General:
     - xclip
     - pactl
     - flameshot
-    - VIM plugins:
-        - NERDTree (https://github.com/preservim/nerdtree) - do wyświetlania drzewa katalogów
-        - vimtex (https://github.com/lervag/vimtex) - do pracy z plikami latex
 
 Java development environment:
     - java (openjdk or something)
     - maven
     - google-java-format (https://github.com/google/google-java-format/releases), put in ~/.vim/
     - java language server (http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz), put in ~/eclipse.jdt.ls/
-    - VIM plugins:
-        - ALE (https://github.com/dense-analysis/ale)
 
 Python development environment
     - python3
     - black
     - flake8
     - mypy
-    - VIM plugins:
-        - jedi-vim   (https://github.com/davidhalter/jedi-vim)
-        - ALE (https://github.com/dense-analysis/ale)
