@@ -1,0 +1,84 @@
+source $VIMRUNTIME/defaults.vim
+
+"indents options
+set smartindent tabstop=4 shiftwidth=4 expandtab
+
+"searching options
+set ignorecase smartcase hlsearch
+
+"encryption options
+set cm=blowfish2
+
+"Helpful formatting functions
+function! FormatUsingExternalTool(cmd)
+    silent let formatted = systemlist(a:cmd, winbufnr(winnr()))
+    let cursor_position = getpos(".")
+    g/.*/d
+    call setline(1, formatted)
+    call setpos(".", cursor_position)
+    echo join(readfile("/tmp/vim_format_stderr"), "\n")
+endfunction
+function! FormatSource()
+    if &filetype == "java"
+        call FormatUsingExternalTool("java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar ~/.vim/google-java-format-all-deps.jar -")
+    elseif &filetype == "json"
+        call FormatUsingExternalTool("python3 -m json.tool")
+    elseif &filetype == "xml"
+        call FormatUsingExternalTool("xmllint --format -")
+    elseif &filetype == "python"
+        call FormatUsingExternalTool("black - 2>/tmp/vim_format_stderr")
+    endif
+endfunction
+command! Format :call FormatSource()
+
+"Helpful function to generate and paste UUID
+function! GenerateUUID()
+    let uuid = system("uuidgen")
+    let uuid = strcharpart(uuid, 0, strlen(uuid) - 1)
+    call setreg('"', uuid)
+endfunction
+command! GenerateUUID :call GenerateUUID()
+
+"Helpful function to recursive find file containing passed text
+function! FindFile(suffix)
+    let g:currentFilename = @%
+    let g:suffix = a:suffix
+    enew!
+    function! FindAndPrintFiles()
+        let filename = getline(1)
+        if strchars(filename) > 2
+            let files = systemlist('find ./ -iname "*' . filename . '*."' . g:suffix)
+            if(line("$") > 1)
+                2;$g/./d
+                call cursor(line("."), col("$"))
+            endif
+            call append(line("$"), files)
+        endif
+    endfunction
+    autocmd! TextChangedI <buffer> call FindAndPrintFiles()
+    noremap <buffer> <CR> :execute "edit! " . getline(line("."))<CR>
+    noremap <buffer> <ESC> :execute "edit! " . g:currentFilename<CR>
+    startinsert
+    setlocal cursorline
+endfunction
+command! -nargs=1 FindFile :call FindFile("<args>")
+
+"Helpful functions to count words and characters
+function! CountWords() range
+    echo len(split(join(getline(a:firstline, a:lastline))))
+endfunction
+function! CountCharacters() range
+    echo len(join(getline(a:firstline, a:lastline)))
+endfunction
+
+"Very little config for some filetypes
+autocmd FileType sh noremap <F1> :!./%<CR>
+autocmd FileType tex setlocal spell spelllang=pl textwidth=100 spellcapcheck=
+
+"Autostart NERDTree when there is no file selected while entering Vim
+function! LaunchNERDTree()
+    if @% == "" && exists('*NERDTree')
+        NERDTree
+    endif
+endfunction
+autocmd VimEnter * call LaunchNERDTree()

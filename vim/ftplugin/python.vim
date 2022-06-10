@@ -124,3 +124,8 @@ if !exists('*PDBEvaluate')
         call term_sendkeys(g:pdb_buffer, "p " . a:expression . "\n")
     endfunction
 endif
+
+
+" jedi-vim config
+let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = "0"
