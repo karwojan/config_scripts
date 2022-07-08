@@ -14,7 +14,7 @@ function ShowSnippetWindow()
     execute 'sbuffer ' . b:snippet_buffer
 endfunction
 function SnippetWindowExists()
-    return exists('b:snippet_buffer') && index(term_list(), b:snippet_buffer) != -1 && term_getstatus(b:snippet_buffer) == 'running'
+    return exists('b:snippet_buffer') && index(term_list(), b:snippet_buffer) != -1 && match(term_getstatus(b:snippet_buffer), 'running') == 0
 endfunction
 function ExecuteInPython3(text)
     if !SnippetWindowExists()
