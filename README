@@ -37,6 +37,7 @@ Java development environment:
 
 Python development environment
     - python3
+    - conda
     - black
     - flake8
     - mypy
