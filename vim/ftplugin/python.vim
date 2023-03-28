@@ -33,9 +33,13 @@ function ExecuteInPython3(text)
     endif
     call term_sendkeys(snippet_buffer, a:text . "\n")
 endfunction
+function ExecuteTest()
+    let function_name = matchlist(getline(search("def ", "bn")), "def \\(\\w\\+\\)")[1]
+    execute '!pytest -k' function_name @%
+endfunction
 noremap <buffer> <F1> :!python3 %<CR>
 noremap <buffer> <F2> :!python3 -i %<CR>
-noremap <buffer> <F3> "zyiw:execute '!pytest -k' @z @%<CR>
+noremap <buffer> <F3> :call ExecuteTest()<CR>
 nnoremap <buffer> <Space> :call ExecuteInPython3(getline(line('.')))<CR>
 vnoremap <buffer> <Space> "zy:call ExecuteInPython3(@z)<CR>
 
