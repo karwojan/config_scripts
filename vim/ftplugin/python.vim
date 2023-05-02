@@ -56,6 +56,7 @@ let maplocalleader = ','
 map <buffer> <LocalLeader>g :call PDBGoToCurrentLine()<CR>
 map <buffer> <LocalLeader>sd :call PDBStart()<CR>
 map <buffer> <LocalLeader>sn :call PDBStartNormal()<CR>
+map <buffer> <LocalLeader>st :call PDBStartTest()<CR>
 map <buffer> <LocalLeader>S :call PDBStop()<CR>
 map <buffer> <LocalLeader>n :call PDBNext()<CR>
 map <buffer> <LocalLeader>c :call PDBContinue()<CR>
@@ -97,6 +98,17 @@ if !exists('*PDBStartNormal')
         endif
     endfunction
 endif
+if !exists('*PDBStartTest')
+    function PDBStartTest()
+        if !exists('g:pdb_buffer')
+            let current_window_id = bufwinid(bufnr("%"))
+            let function_name = matchlist(getline(search("def ", "bn")), "def \\(\\w\\+\\)")[1]
+            let g:pdb_buffer = term_start('pytest --trace -k' . function_name, {'term_rows': 10})
+            call win_gotoid(current_window_id)
+            autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
+        endif
+    endfunction
+endif
 if !exists('*PDBStop')
     function PDBStop()
         if exists('g:pdb_buffer')
@@ -133,3 +145,7 @@ endif
 " jedi-vim config
 let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = "0"
+
+" ALE config
+let b:ale_linters = ["flake8", "mypy"]
+let g:ale_virtualtext_cursor = "0"
