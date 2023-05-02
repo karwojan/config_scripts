@@ -1,9 +1,3 @@
-"path for C/C++ header files
-set path=.,,include,/usr/include,/usr/local/include
-if has_key(environ(), 'IDF_PATH')
-    set path+=~/esp/esp-idf/components/*/include
-endif
-
 "header files for C/C++
 function! PrepareHeader()
     let filename = toupper(strpart(expand('%:t'), 0, match(expand('%:t'), "\\.")))
@@ -15,3 +9,16 @@ function! PrepareHeader()
     call append(2, "")
 endfunction
 autocmd BufNewFile *.h :call PrepareHeader()
+
+" ALE config
+let b:ale_linters = ["clangd"]
+let g:ale_virtualtext_cursor = "0"
+let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
+
+nnoremap <buffer> <LocalLeader>d :ALEGoToDefinition<CR>
+nnoremap <buffer> <LocalLeader>D :ALEGoToTypeDefinition<CR>
+nnoremap <buffer> <LocalLeader>n :ALEFindReferences<CR>
+nnoremap <buffer> <LocalLeader>r :ALERename<CR>
+nnoremap <buffer> <LocalLeader>a :ALECodeAction<CR>
+nnoremap <buffer> K :ALEHover<CR>
