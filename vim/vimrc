@@ -17,7 +17,9 @@ function! FormatUsingExternalTool(cmd)
     g/.*/d
     call setline(1, formatted)
     call setpos(".", cursor_position)
-    echo join(readfile("/tmp/vim_format_stderr"), "\n")
+    if filereadable("/tmp/vim_format_stderr")
+        echo join(readfile("/tmp/vim_format_stderr"), "\n")
+    endif
 endfunction
 function! FormatSource()
     if &filetype == "java"
@@ -72,18 +74,29 @@ function! CountCharacters() range
     echo len(join(getline(a:firstline, a:lastline)))
 endfunction
 
-"Very little config for some filetypes
-autocmd FileType sh noremap <F1> :!./%<CR>
-
-"Autostart NERDTree when there is no file selected while entering Vim
-function! LaunchNERDTree()
-    if @% == "" && exists(':NERDTree')
-        NERDTree
+"Helpful functions to convert from json to yaml and vice versa
+function! YamlJsonConversion()
+    if &filetype == "yaml"
+        call FormatUsingExternalTool('python -c "import yaml, json, sys; print(json.dumps(yaml.safe_load(sys.stdin), indent=4))"')
+        set filetype=json
+    elseif &filetype == "json"
+        call FormatUsingExternalTool('python -c "import yaml, json, sys; print(yaml.dump(json.load(sys.stdin)))"')
+        set filetype=yaml
     endif
 endfunction
-autocmd VimEnter * call LaunchNERDTree()
+command! YamlJsonConversion :call YamlJsonConversion()
 
-"VimTex
+"bash scripts configs
+autocmd FileType sh noremap <F1> :!./%<CR>
+
+"netrw configuration
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 15
+
+"VimTex configuration
 let g:vimtex_fold_enabled = 1
 let g:vimtex_grammar_textidote = {'jar': '/home/jan/Pobrane/textidote.jar'}
 autocmd FileType tex compiler textidote
@@ -94,12 +107,8 @@ autocmd FileType tex noremap k gk
 autocmd FileType tex noremap cn :cn<CR>
 autocmd FileType tex noremap cc :cc<CR>
 
-"NERDTree
-let NERDTreeIgnore=['__pycache__']
-
 "Plugins configuration
 call plug#begin()
-Plug 'preservim/nerdtree'
 Plug 'dense-analysis/ale'
 Plug 'davidhalter/jedi-vim'
 Plug 'lervag/vimtex'
