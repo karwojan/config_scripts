@@ -89,13 +89,6 @@ command! YamlJsonConversion :call YamlJsonConversion()
 "bash scripts configs
 autocmd FileType sh noremap <F1> :!./%<CR>
 
-"netrw configuration
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 15
-
 "VimTex configuration
 let g:vimtex_fold_enabled = 1
 let g:vimtex_grammar_textidote = {'jar': '/home/jan/Pobrane/textidote.jar'}
@@ -107,10 +100,19 @@ autocmd FileType tex noremap k gk
 autocmd FileType tex noremap cn :cn<CR>
 autocmd FileType tex noremap cc :cc<CR>
 
+"NERDTree
+function! LaunchNERDTree()
+    if @% == "" && exists(':NERDTree')
+        NERDTree
+    endif
+endfunction
+autocmd VimEnter * call LaunchNERDTree()
+let NERDTreeIgnore=['__pycache__', '\.egg-info$']
+
 "Plugins configuration
 call plug#begin()
+Plug 'preservim/nerdtree'
 Plug 'dense-analysis/ale'
 Plug 'davidhalter/jedi-vim'
 Plug 'lervag/vimtex'
 call plug#end()
-
