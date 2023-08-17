@@ -101,12 +101,8 @@ autocmd FileType tex noremap cn :cn<CR>
 autocmd FileType tex noremap cc :cc<CR>
 
 "NERDTree
-function! LaunchNERDTree()
-    if @% == "" && exists(':NERDTree')
-        NERDTree
-    endif
-endfunction
-autocmd VimEnter * call LaunchNERDTree()
+autocmd VimEnter * if @% == "" && exists(":NERDTree") | NERDTree | endif
+noremap <C-N> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['__pycache__', '\.egg-info$']
 
 "Plugins configuration
