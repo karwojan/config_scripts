@@ -6,23 +6,26 @@
 
 " Executing python code in terminal window
 function CloseSnippetWindow()
-    execute bufwinnr(b:snippet_buffer) . 'hide'
-    nunmap <buffer> <Esc>
+    if SnippetWindowExists()
+        execute bufwinnr(b:snippet_buffer) . 'hide'
+        nunmap <buffer> <Esc>
+    endif
 endfunction
 function ShowSnippetWindow()
-    nnoremap <buffer> <Esc> :call CloseSnippetWindow()<CR>
-    execute 'sbuffer ' . b:snippet_buffer
+    if SnippetWindowExists()
+        nnoremap <buffer> <Esc> :call CloseSnippetWindow()<CR>
+        execute 'sbuffer ' . b:snippet_buffer
+    endif
 endfunction
 function SnippetWindowExists()
     return exists('b:snippet_buffer') && index(term_list(), b:snippet_buffer) != -1 && match(term_getstatus(b:snippet_buffer), 'running') == 0
 endfunction
 function ExecuteInPython3(text)
     if !SnippetWindowExists()
-        let b:snippet_buffer = term_start('python3', {'hidden':1})
+        let b:snippet_buffer = term_start('python3', {'hidden': 1, 'term_kill': 'kill'})
         let snippet_buffer = b:snippet_buffer
         call term_sendkeys(snippet_buffer, "import sys\n")
         call term_sendkeys(snippet_buffer, "sys.path.append('" . expand('%:h') . "')\n")
-        autocmd ExitPre <buffer> call term_setkill(b:snippet_buffer, "kill")
     else
         let snippet_buffer = b:snippet_buffer
     endif
@@ -82,9 +85,8 @@ if !exists('*PDBStart')
     function PDBStart()
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
-            let g:pdb_buffer = term_start('python3 -m pdb ' . expand('%:p'), {'term_rows': 10})
+            let g:pdb_buffer = term_start('python3 -m pdb ' . expand('%:p'), {'term_rows': 10, 'term_kill': 'kill'})
             call win_gotoid(current_window_id)
-            autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
         endif
     endfunction
 endif
@@ -92,9 +94,8 @@ if !exists('*PDBStartNormal')
     function PDBStartNormal()
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
-            let g:pdb_buffer = term_start('/bin/bash', {'term_rows': 10})
+            let g:pdb_buffer = term_start('/bin/bash', {'term_rows': 10, 'term_kill': 'kill'})
             call win_gotoid(current_window_id)
-            autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
         endif
     endfunction
 endif
@@ -103,17 +104,15 @@ if !exists('*PDBStartTest')
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
             let function_name = matchlist(getline(search("def ", "bn")), "def \\(\\w\\+\\)")[1]
-            let g:pdb_buffer = term_start('pytest --trace -k' . function_name, {'term_rows': 10})
+            let g:pdb_buffer = term_start('pytest --trace -k' . function_name, {'term_rows': 10, 'term_kill': 'kill'})
             call win_gotoid(current_window_id)
-            autocmd QuitPre <buffer> call term_setkill(g:pdb_buffer, "kill")
         endif
     endfunction
 endif
 if !exists('*PDBStop')
     function PDBStop()
         if exists('g:pdb_buffer')
-            call term_setkill(g:pdb_buffer, "kill")
-            execute bufwinnr(g:pdb_buffer) . 'hide'
+            execute bufwinnr(g:pdb_buffer) . 'close!'
             call sign_unplace("")
             unlet g:pdb_buffer
         endif
