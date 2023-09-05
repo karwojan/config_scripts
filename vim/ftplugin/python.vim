@@ -148,3 +148,6 @@ let g:jedi#show_call_signatures = "0"
 " ALE config
 let b:ale_linters = ["flake8", "mypy"]
 let g:ale_virtualtext_cursor = "0"
+
+" Text formatting config
+set textwidth=88
