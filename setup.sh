@@ -1,3 +1,4 @@
+mkdir -p ~/.vim/plugin
 mkdir -p ~/.vim/ftplugin
 mkdir -p ~/.vim/autoload
 mkdir -p ~/.config/i3
