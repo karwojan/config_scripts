@@ -149,5 +149,8 @@ let g:jedi#show_call_signatures = "0"
 let b:ale_linters = ["flake8", "mypy"]
 let g:ale_virtualtext_cursor = "0"
 
+" python-syntax config
+let g:python_highlight_all = 1
+
 " Text formatting config
 set textwidth=88

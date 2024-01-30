@@ -1,5 +1,5 @@
-source $VIMRUNTIME/defaults.vim
-set bg=dark
+" enable filetype detection
+filetype plugin indent on
 
 "indents options
 set smartindent tabstop=4 shiftwidth=4 expandtab
@@ -111,4 +111,11 @@ Plug 'preservim/nerdtree'
 Plug 'dense-analysis/ale'
 Plug 'davidhalter/jedi-vim'
 Plug 'lervag/vimtex'
+Plug 'vim-python/python-syntax'
+Plug 'morhetz/gruvbox'
 call plug#end()
+
+" syntax highlighting
+set bg=dark
+colorscheme gruvbox
+syntax enable
