@@ -36,13 +36,14 @@ function ExecuteInPython3(text)
     endif
     call term_sendkeys(snippet_buffer, a:text . "\n")
 endfunction
-function ExecuteTest()
+function ExecuteTest(extra_args = "")
     let function_name = matchlist(getline(search("def ", "bn")), "def \\(\\w\\+\\)")[1]
-    execute '!pytest -k' function_name @%
+    execute '!pytest -k' function_name a:extra_args @%
 endfunction
 noremap <buffer> <F1> :!python3 %<CR>
 noremap <buffer> <F2> :!python3 -i %<CR>
 noremap <buffer> <F3> :call ExecuteTest()<CR>
+noremap <buffer> <F4> :call ExecuteTest('-s --log-cli-level=INFO')<CR>
 nnoremap <buffer> <Space> :call ExecuteInPython3(getline(line('.')))<CR>
 vnoremap <buffer> <Space> "zy:call ExecuteInPython3(@z)<CR>
 
@@ -154,3 +155,8 @@ let g:python_highlight_all = 1
 
 " Text formatting config
 set textwidth=88
+set formatoptions=cq
+
+" Folding
+set foldmethod=indent
+set nofoldenable
