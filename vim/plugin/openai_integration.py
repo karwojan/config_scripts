@@ -1,5 +1,10 @@
 import os
-import requests
+
+try:
+    import requests
+except ModuleNotFoundError:
+    # just do nothing
+    pass
 
 import vim
 
