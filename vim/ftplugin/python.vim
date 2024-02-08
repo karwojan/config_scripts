@@ -43,7 +43,7 @@ endfunction
 noremap <buffer> <F1> :!python3 %<CR>
 noremap <buffer> <F2> :!python3 -i %<CR>
 noremap <buffer> <F3> :call ExecuteTest()<CR>
-noremap <buffer> <F4> :call ExecuteTest('-s --log-cli-level=INFO')<CR>
+noremap <buffer> <F4> :call ExecuteTest('-s')<CR>
 nnoremap <buffer> <Space> :call ExecuteInPython3(getline(line('.')))<CR>
 vnoremap <buffer> <Space> "zy:call ExecuteInPython3(@z)<CR>
 
@@ -113,7 +113,7 @@ endif
 if !exists('*PDBStop')
     function PDBStop()
         if exists('g:pdb_buffer')
-            execute bufwinnr(g:pdb_buffer) . 'close!'
+            execute bufwinnr(g:pdb_buffer) . 'quit!'
             call sign_unplace("")
             unlet g:pdb_buffer
         endif
