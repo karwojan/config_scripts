@@ -105,7 +105,7 @@ if !exists('*PDBStartTest')
         if !exists('g:pdb_buffer')
             let current_window_id = bufwinid(bufnr("%"))
             let function_name = matchlist(getline(search("def ", "bn")), "def \\(\\w\\+\\)")[1]
-            let g:pdb_buffer = term_start('pytest --trace -k' . function_name, {'term_rows': 10, 'term_kill': 'kill'})
+            let g:pdb_buffer = term_start('pytest --trace -k' . function_name . ' ' . @%, {'term_rows': 10, 'term_kill': 'kill'})
             call win_gotoid(current_window_id)
         endif
     endfunction
