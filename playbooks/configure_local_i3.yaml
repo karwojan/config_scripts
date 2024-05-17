@@ -1,0 +1,27 @@
+- name: Configure local i3 environment
+  tasks:
+    - name: Install required packages
+      ansible.builtin.package:
+        name: [git, nm-applet, udiskie, i3lock, xclip, pactl, flameshot]
+        state: present
+
+    - name: Checkout config_scripts repository
+      ansible.builtin.git:
+        repo: https://github.com/karwojan/config_scripts.git
+        dest: ~/config_scripts
+
+    - name: Prepare config directories
+      ansible.builtin.file:
+        path: "~/.config/{{ item }}"
+        state: directory
+      loop: [i3, i3status]
+
+    - name: Link config files
+      ansible.builtin.file:
+        src: "{{ item[0] }}"
+        path: "{{ item[1] }}"
+        state: link
+      loop:
+        - [~/config_scripts/i3/i3_config, ~/.config/i3/config]
+        - [~/config_scripts/i3/i3status_config, ~/.config/i3_status/config]
+        - [~/config_scripts/i3/Xresources, ~/.Xresources]

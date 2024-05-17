@@ -13,6 +13,8 @@ floating_modifier $mod
 exec nm-applet
 exec udiskie
 exec setxkbmap -layout pl
+exec xsetroot -solid "#222222"
+exec xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x1204 --rotate normal --output HDMI-1 --off --output DP-1 --off --output DP-2 --off --output DP-1-1 --mode 2560x1440 --pos 4480x0 --rotate normal --output DP-1-2 --off --output DP-1-3 --mode 2560x1440 --pos 1920x0 --rotate normal
 
 # start programs
 bindsym $mod+p exec flameshot gui
@@ -21,6 +23,7 @@ bindsym $mod+d exec i3-dmenu-desktop
 bindsym $mod+Shift+l exec i3lock --color=111111
 bindsym $mod+c exec xclip -selection clipboard -out | xclip -selection primary -in
 bindsym $mod+v exec xclip -selection primary -out | xclip -selection clipboard -in
+bindsym $mod+b exec python /home/jan/fix_table_copy.py
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -30,8 +33,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use xrandr to adjust brightness
-bindsym XF86MonBrightnessUp exec xrandr --output `xrandr -q | grep ' connected' | head -n 1 | cut -d ' ' -f1` --brightness 1
-bindsym XF86MonBrightnessDown exec xrandr --output `xrandr -q | grep ' connected' | head -n 1 | cut -d ' ' -f1` --brightness 0.8
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -86,6 +89,10 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+workspace $ws1 output eDP-1
+workspace $ws2 output DP-1-3
+workspace $ws3 output DP-1-1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
