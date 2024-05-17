@@ -1,9 +1,11 @@
 - name: Configure local i3 environment
   tasks:
     - name: Install required packages
+      become: true
       ansible.builtin.package:
         name: [git, nm-applet, udiskie, i3lock, xclip, pactl, flameshot]
         state: present
+      ignore_errors: true
 
     - name: Checkout config_scripts repository
       ansible.builtin.git:

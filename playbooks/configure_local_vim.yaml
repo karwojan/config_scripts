@@ -1,5 +1,4 @@
 - name: Configure local Vim environment
-  hosts: localhost
   tasks:
     - name: Install required packages
       become: true
