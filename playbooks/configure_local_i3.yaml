@@ -26,5 +26,5 @@
         state: link
       loop:
         - [~/config_scripts/i3/i3_config, ~/.config/i3/config]
-        - [~/config_scripts/i3/i3status_config, ~/.config/i3_status/config]
+        - [~/config_scripts/i3/i3status_config, ~/.config/i3status/config]
         - [~/config_scripts/i3/Xresources, ~/.Xresources]
