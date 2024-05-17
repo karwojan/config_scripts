@@ -1,5 +1,5 @@
 - name: Configure local i3 environment
-  hosts: all
+  hosts: localhost
   tasks:
     - name: Install required packages
       become: true
