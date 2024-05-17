@@ -117,5 +117,9 @@ call plug#end()
 
 " syntax highlighting
 set bg=dark
-colorscheme gruvbox
+try
+    colorscheme gruvbox
+catch
+    " just ignore this situation
+endtry
 syntax enable
