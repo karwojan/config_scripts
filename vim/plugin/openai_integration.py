@@ -1,4 +1,5 @@
 import os
+from typing import Union
 
 try:
     import requests
@@ -16,7 +17,7 @@ type hints for function arguments and returned values. When you are asked to cha
 or refactor a piece of code, keep the formatting as given, especially indentations."""
 }
 
-def _prompt(system: str, instruction: str, data: str | None = None) -> str:
+def _prompt(system: str, instruction: str, data: Union[str, None] = None) -> str:
     if data is not None:
         instruction += ":\n"
         instruction += data
